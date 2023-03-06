@@ -1,0 +1,1 @@
+/Users/kudashov/AndroidStudioProjects/OpenCVAndroid/openCV/build/intermediates/cxx/RelWithDebInfo/3m27s1n1/obj/x86
