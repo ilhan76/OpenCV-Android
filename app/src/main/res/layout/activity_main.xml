@@ -18,21 +18,21 @@
         tools:ignore="ContentDescription" />
 
     <Button
-        android:id="@+id/open_camera_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="40dp"
-        android:text="Open camera"
-        app:layout_constraintTop_toBottomOf="@+id/picture_iv" />
-
-    <Button
         android:id="@+id/open_gallery_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="40dp"
         android:text="Open gallery"
-        app:layout_constraintTop_toBottomOf="@+id/open_camera_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/picture_iv" />
+
+    <Button
+        android:id="@+id/blur_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:text="Blur"
+        app:layout_constraintTop_toBottomOf="@+id/open_gallery_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
