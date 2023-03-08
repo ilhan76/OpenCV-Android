@@ -11,7 +11,6 @@ import com.kudashov.opencv_android.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 import org.opencv.android.OpenCVLoader
 import kotlin.coroutines.CoroutineContext
 
@@ -30,7 +29,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     ) { uri: Uri? ->
         uri?.let {
             imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
-            binding.pictureIv.setImageBitmap(imageBitmap)
+            viewModel.imageLoaded(imageBitmap)
         }
     }
 
@@ -45,18 +44,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private fun initListeners() = with(binding) {
         openGalleryBtn.setOnClickListener { resultLauncher.launch(IMAGE_TYPE) }
-        blurBtn.setOnClickListener {
-            launch {
-                imageBitmap?.let {
-                    viewModel.blurImage(it, 30.0)
-                }
-            }
+        processBtn.setOnClickListener {
+            imageBitmap?.let { viewModel.processImage(it) }
         }
     }
 
-    private fun bind() = with(viewModel) {
-        imageLiveData.observe(this@MainActivity) {
+    private fun bind() = viewModel.stateLiveData.observe(this) { state ->
+        state.bitmap?.let {
             binding.pictureIv.setImageBitmap(it)
+        }
+        state.sdkTime?.let {
+            binding.sdkTimeTv.text = it.toString()
         }
     }
 }
