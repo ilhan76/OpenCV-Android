@@ -1,4 +1,0 @@
-/Users/kudashov/Library/Android/sdk/cmake/3.18.1/bin/ninja \
-  -C \
-  /Users/kudashov/AndroidStudioProjects/OpenCVAndroid/openCV/.cxx/Debug/3v6ae16a/arm64-v8a \
-  opencv_jni_shared
