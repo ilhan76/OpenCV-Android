@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kudashov.opencv_android.extensions.default
 import com.kudashov.opencv_android.image_processor.SdkImageProcessor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,23 +22,31 @@ class MainViewModel : ViewModel(), CoroutineScope {
 
     private val state get() = stateLiveData.value
 
-    fun imageLoaded(bitmap: Bitmap?) {
-        _stateLiveData.postValue(state?.copy(bitmap = bitmap))
-    }
+    fun imageLoaded(bitmap: Bitmap?) = _stateLiveData.postValue(MainState(sourceBitmap = bitmap))
 
-    fun processImage(bitmap: Bitmap) = launch(Dispatchers.IO) {
-        val t1 = System.currentTimeMillis()
-        val processedBitmap = imageProcessor.meanShift(bitmap)
-        val t2 = System.currentTimeMillis()
+    fun processImage() = launch(Dispatchers.IO) {
+        state?.sourceBitmap?.let { bitmap ->
+            val sdkTimeStart = System.currentTimeMillis()
+            val sdkResultBitmap = imageProcessor.meanShift(bitmap)
+            val sdkTimeEnd = System.currentTimeMillis()
 
-        _stateLiveData.postValue(
-            state?.copy(
-                bitmap = processedBitmap,
-                sdkTime = (t2 - t1).toDouble() / 1000
+            val ndkResultBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+
+            val ndkTimeStart = System.currentTimeMillis()
+            meanShift(bitmap, ndkResultBitmap)
+            val ndkTimeEnd = System.currentTimeMillis()
+
+            _stateLiveData.postValue(
+                state?.copy(
+                    resultSdkBitmap = sdkResultBitmap,
+                    resultNdkBitmap = ndkResultBitmap,
+                    sdkTime = (sdkTimeEnd - sdkTimeStart).toDouble() / 1000,
+                    ndkTime = (ndkTimeEnd - ndkTimeStart).toDouble() / 1000
+                )
             )
-        )
-    }
-}
+        }
 
-// Set default value for any type of MutableLiveData
-fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { setValue(initialValue) }
+    }
+
+    private external fun meanShift(bitmapIn: Bitmap, bitmapOut: Bitmap)
+}

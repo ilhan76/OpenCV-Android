@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">OpenCV-Android</string>
 
+    <string name="source_image_title_text">Исходное изображение</string>
+    <string name="sdk_processed_image_title_text">Обработка с помощью SDK</string>
+    <string name="ndk_processed_image_title_text">Обработка с помощью NDK</string>
+
     <string name="load_from_gallery_btn_text">Загрузить фото</string>
     <string name="process_btn_text">Обработать</string>
     <string name="sdk_time_text">Время обработки в SDK:</string>

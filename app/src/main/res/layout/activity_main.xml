@@ -10,15 +10,65 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingBottom="40dp"
         tools:context=".MainActivity">
 
+        <TextView
+            android:id="@+id/source_image_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:text="@string/source_image_title_text"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+
         <ImageView
-            android:id="@+id/picture_iv"
+            android:id="@+id/picture_source_iv"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/teal_200"
-            tools:ignore="ContentDescription" />
+            android:layout_height="200dp"
+            android:visibility="gone"
+            tools:background="@color/teal_200"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/sdk_processed_image_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sdk_processed_image_title_text"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/picture_sdk_result_iv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            tools:background="@color/teal_200"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/ndk_processed_image_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:text="@string/ndk_processed_image_title_text"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/picture_ndk_result_iv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            tools:background="@color/teal_200"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
 
         <Button
             android:id="@+id/open_gallery_btn"
@@ -43,16 +93,17 @@
             android:layout_marginTop="20dp">
 
             <TextView
+                android:id="@+id/sdk_time_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sdk_time_text"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/sdk_time_tv"
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,16 +113,17 @@
             android:layout_marginTop="10dp">
 
             <TextView
+                android:id="@+id/ndk_time_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ndk_time_text"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/ndk_time_tv"
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp" />
         </LinearLayout>
 
     </LinearLayout>
