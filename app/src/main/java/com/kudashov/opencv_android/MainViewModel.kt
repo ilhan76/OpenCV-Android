@@ -49,4 +49,6 @@ class MainViewModel : ViewModel(), CoroutineScope {
     }
 
     private external fun meanShift(bitmapIn: Bitmap, bitmapOut: Bitmap)
+
+    private external fun blur(bitmapIn: Bitmap, bitmapOut: Bitmap)
 }

@@ -14,7 +14,7 @@ class SdkImageProcessor : ImageProcessor {
         Utils.bitmapToMat(bitmap, imageSrc)
 
         val destination = Mat()
-        Imgproc.GaussianBlur(imageSrc, destination, Size(), sigma)
+        Imgproc.GaussianBlur(imageSrc, destination, Size(), sigma, sigma)
 
         val copy = Bitmap.createBitmap(
             destination.width(),

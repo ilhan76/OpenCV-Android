@@ -102,3 +102,12 @@ Java_com_kudashov_opencv_1android_MainViewModel_meanShift(
     meanShift(src);
     matToBitmap(env, src, bitmap_out, true);
 }
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_kudashov_opencv_1android_MainViewModel_blur(JNIEnv *env, jobject thiz, jobject bitmap_in,
+                                                     jobject bitmap_out) {
+    Mat src, result;
+    bitmapToMat(env, bitmap_in, src, true);
+    GaussianBlur(src, result, Size(), 20, 20);
+    matToBitmap(env, result, bitmap_out, true);
+}
