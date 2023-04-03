@@ -1,4 +1,4 @@
-package com.kudashov.opencv_android
+package com.kudashov.opencv_android.screens.from_gallery
 
 import android.net.Uri
 import android.os.Bundle
@@ -7,22 +7,21 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.kudashov.opencv_android.base.IMAGE_TYPE
-import com.kudashov.opencv_android.databinding.ActivityMainBinding
+import com.kudashov.opencv_android.databinding.ActivityFromGalleryBinding
 import com.kudashov.opencv_android.extensions.goneIfNull
 import com.kudashov.opencv_android.extensions.setValueOrGone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import org.opencv.android.OpenCVLoader
 import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity(), CoroutineScope {
+class FromGalleryActivityView  : AppCompatActivity(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main + SupervisorJob()
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityFromGalleryBinding
 
-    private val viewModel = MainViewModel()
+    private val viewModel = FromGalleryViewModel()
 
     private var resultLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -34,11 +33,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityFromGalleryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initListeners()
         bind()
-        OpenCVLoader.initDebug()
     }
 
     private fun initListeners() = with(binding) {

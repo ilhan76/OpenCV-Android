@@ -1,8 +1,8 @@
-package com.kudashov.opencv_android
+package com.kudashov.opencv_android.screens.from_gallery
 
 import android.graphics.Bitmap
 
-data class MainState(
+data class FromGalleryState(
     val sourceBitmap: Bitmap? = null,
     val resultSdkBitmap: Bitmap? = null,
     val resultNdkBitmap: Bitmap? = null,

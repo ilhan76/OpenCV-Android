@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">OpenCV-Android</string>
 
+    <!--region MainActivityView-->
+    <string name="open_from_gallery_screen_btn_text">Из галереи</string>
+    <string name="open_tests_screen_btn_text">Запустить тесты</string>
+    <!--endregion-->
+
+    <!--region FromGalleryActivityView-->
     <string name="source_image_title_text">Исходное изображение</string>
     <string name="sdk_processed_image_title_text">Обработка с помощью SDK</string>
     <string name="ndk_processed_image_title_text">Обработка с помощью NDK</string>
-
     <string name="load_from_gallery_btn_text">Загрузить фото</string>
     <string name="process_btn_text">Обработать</string>
     <string name="sdk_time_text">Время обработки в SDK:</string>
     <string name="ndk_time_text">Время обработки в NDK:</string>
+    <!--endregion-->
 </resources>

@@ -1,4 +1,4 @@
-package com.kudashov.opencv_android
+package com.kudashov.opencv_android.screens.from_gallery
 
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
@@ -12,19 +12,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class MainViewModel : ViewModel(), CoroutineScope {
+class FromGalleryViewModel : ViewModel(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.IO
 
     private val sdkImageProcessor = SdkImageProcessor()
     private val ndkImageProcessor = NdkImageProcessor()
 
-    private val _stateLiveData = MutableLiveData<MainState>().default(MainState())
-    val stateLiveData: LiveData<MainState> = _stateLiveData
+    private val _stateLiveData = MutableLiveData<FromGalleryState>().default(FromGalleryState())
+    val stateLiveData: LiveData<FromGalleryState> = _stateLiveData
 
     private val state get() = stateLiveData.value
 
-    fun imageLoaded(bitmap: Bitmap?) = _stateLiveData.postValue(MainState(sourceBitmap = bitmap))
+    fun imageLoaded(bitmap: Bitmap?) = _stateLiveData.postValue(FromGalleryState(sourceBitmap = bitmap))
 
     fun processImage() = launch(Dispatchers.IO) {
         state?.sourceBitmap?.let { bitmap ->
@@ -47,8 +47,4 @@ class MainViewModel : ViewModel(), CoroutineScope {
         }
 
     }
-
-    private external fun meanShift(bitmapIn: Bitmap, bitmapOut: Bitmap)
-
-    private external fun blur(bitmapIn: Bitmap, bitmapOut: Bitmap)
 }
