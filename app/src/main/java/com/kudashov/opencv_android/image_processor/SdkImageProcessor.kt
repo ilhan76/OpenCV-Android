@@ -8,13 +8,13 @@ import org.opencv.imgproc.Imgproc
 
 class SdkImageProcessor : ImageProcessor {
 
-    override suspend fun blur(bitmap: Bitmap, sigma: Double): Bitmap {
+    override suspend fun blur(bitmap: Bitmap, sigma: Int): Bitmap {
         val imageSrc = Mat()
 
         Utils.bitmapToMat(bitmap, imageSrc)
 
         val destination = Mat()
-        Imgproc.GaussianBlur(imageSrc, destination, Size(), sigma, sigma)
+        Imgproc.GaussianBlur(imageSrc, destination, Size(), sigma.toDouble(), sigma.toDouble())
 
         val copy = Bitmap.createBitmap(
             destination.width(),

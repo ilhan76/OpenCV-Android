@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 
 interface ImageProcessor {
 
-    suspend fun blur(bitmap: Bitmap, sigma: Double): Bitmap
+    suspend fun blur(bitmap: Bitmap, sigma: Int): Bitmap
 
     suspend fun meanShift(bitmap: Bitmap): Bitmap
 }

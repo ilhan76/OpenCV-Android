@@ -92,11 +92,12 @@ void matToBitmap(JNIEnv *env, Mat src, jobject bitmap, jboolean needPremultiplyA
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_kudashov_opencv_1android_MainViewModel_meanShift(
+Java_com_kudashov_opencv_1android_image_1processor_NdkImageProcessor_meanShift(
         JNIEnv *env,
         jobject thiz,
         jobject bitmap_in,
-        jobject bitmap_out) {
+        jobject bitmap_out
+) {
     Mat src;
     bitmapToMat(env, bitmap_in, src, true);
     meanShift(src);
@@ -104,10 +105,15 @@ Java_com_kudashov_opencv_1android_MainViewModel_meanShift(
 }
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_kudashov_opencv_1android_MainViewModel_blur(JNIEnv *env, jobject thiz, jobject bitmap_in,
-                                                     jobject bitmap_out) {
+Java_com_kudashov_opencv_1android_image_1processor_NdkImageProcessor_blur(
+        JNIEnv *env,
+        jobject thiz,
+        jobject bitmap_in,
+        jobject bitmap_out,
+        jint sigma
+) {
     Mat src, result;
     bitmapToMat(env, bitmap_in, src, true);
-    GaussianBlur(src, result, Size(), 20, 20);
+    GaussianBlur(src, result, Size(), sigma, sigma);
     matToBitmap(env, result, bitmap_out, true);
 }
