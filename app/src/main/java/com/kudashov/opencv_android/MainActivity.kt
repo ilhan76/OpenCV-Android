@@ -1,10 +1,10 @@
 package com.kudashov.opencv_android
 
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.kudashov.opencv_android.base.IMAGE_TYPE
 import com.kudashov.opencv_android.databinding.ActivityMainBinding
@@ -48,7 +48,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private fun bind() = viewModel.stateLiveData.observe(this) { state ->
         with(state) {
-            val shouldShowOriginalImage = sourceBitmap != null && resultNdkBitmap == null && resultSdkBitmap == null
+            val shouldShowOriginalImage =
+                sourceBitmap != null && resultNdkBitmap == null && resultSdkBitmap == null
             binding.sourceImageTitleTv.isVisible = shouldShowOriginalImage
             binding.pictureSourceIv.setValueOrGone(sourceBitmap)
             binding.pictureSourceIv.isVisible = shouldShowOriginalImage
@@ -63,13 +64,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             binding.sdkTimeTv.setValueOrGone(sdkTime)
             binding.ndkTimeTitleTv.goneIfNull(sdkTime)
             binding.ndkTimeTv.setValueOrGone(ndkTime)
-        }
-    }
-
-    companion object {
-        // Used to load the 'opencvnativedemo' library on application startup.
-        init {
-            System.loadLibrary("opencvnativedemo")
         }
     }
 }
