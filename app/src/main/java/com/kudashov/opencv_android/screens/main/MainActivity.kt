@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kudashov.opencv_android.databinding.ActivityMainBinding
 import com.kudashov.opencv_android.screens.from_gallery.FromGalleryActivityView
-import org.opencv.android.OpenCVLoader
+import com.kudashov.opencv_android.screens.test.TestsActivityView
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initListeners()
-        OpenCVLoader.initDebug()
     }
 
     private fun initListeners() = with(binding) {
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, FromGalleryActivityView::class.java))
         }
         openTestsScreenBtn.setOnClickListener {
-            // todo
+            startActivity(Intent(this@MainActivity, TestsActivityView::class.java))
         }
     }
 }

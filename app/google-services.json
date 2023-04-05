@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "213654690940",
+    "project_id": "opencv-android-67a76",
+    "storage_bucket": "opencv-android-67a76.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213654690940:android:9af1dd6ac7437a0f747df9",
+        "android_client_info": {
+          "package_name": "com.kudashov.opencv_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213654690940-lmvvjkvjeuvul246bvvabd9k802tktfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxCDiy5nL4Q2RJ2cn1p448I7M1y2LNbWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213654690940-lmvvjkvjeuvul246bvvabd9k802tktfh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
