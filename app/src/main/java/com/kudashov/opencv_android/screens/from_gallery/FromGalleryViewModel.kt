@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+import kotlin.system.measureTimeMillis
 
 class FromGalleryViewModel : ViewModel(), CoroutineScope {
 
@@ -28,23 +29,24 @@ class FromGalleryViewModel : ViewModel(), CoroutineScope {
 
     fun processImage() = launch(Dispatchers.IO) {
         state?.sourceBitmap?.let { bitmap ->
-            val sdkTimeStart = System.currentTimeMillis()
-            val sdkResultBitmap = sdkImageProcessor.meanShift(bitmap)
-            val sdkTimeEnd = System.currentTimeMillis()
+            val sdkResultBitmap: Bitmap
+            val ndkResultBitmap: Bitmap
+            val sdkTimeResult = measureTimeMillis {
+               sdkResultBitmap = sdkImageProcessor.meanShift(bitmap)
+            }
 
-            val ndkTimeStart = System.currentTimeMillis()
-            val ndkResultBitmap = ndkImageProcessor.meanShift(bitmap)
-            val ndkTimeEnd = System.currentTimeMillis()
+            val ndkTimeResult = measureTimeMillis {
+                ndkResultBitmap = ndkImageProcessor.meanShift(bitmap)
+            }
 
             _stateLiveData.postValue(
                 state?.copy(
                     resultSdkBitmap = sdkResultBitmap,
                     resultNdkBitmap = ndkResultBitmap,
-                    sdkTime = (sdkTimeEnd - sdkTimeStart).toDouble() / 1000,
-                    ndkTime = (ndkTimeEnd - ndkTimeStart).toDouble() / 1000
+                    sdkTime = sdkTimeResult.toDouble() / 1000,
+                    ndkTime = ndkTimeResult.toDouble() / 1000
                 )
             )
         }
-
     }
 }
