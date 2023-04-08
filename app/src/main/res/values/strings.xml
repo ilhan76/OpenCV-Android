@@ -15,4 +15,8 @@
     <string name="sdk_time_text">Время обработки в SDK:</string>
     <string name="ndk_time_text">Время обработки в NDK:</string>
     <!--endregion-->
+
+    <!--region TestsActivityView-->
+    <string name="image_processing_progress_text">Обработано: %d из %d</string>
+    <!--endregion-->
 </resources>

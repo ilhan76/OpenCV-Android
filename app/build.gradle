@@ -50,6 +50,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     implementation project(":openCV")
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     testImplementation 'junit:junit:4.13.2'
