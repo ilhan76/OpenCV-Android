@@ -6,10 +6,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-//import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.kudashov.opencv_android.base.IMAGE_COUNT
+import com.kudashov.opencv_android.base.ITERATIONS_PER_IMAGE
 import com.kudashov.opencv_android.extensions.default
 import com.kudashov.opencv_android.image_processor.NdkImageProcessor
 import com.kudashov.opencv_android.image_processor.SdkImageProcessor
@@ -20,8 +21,8 @@ class TestsViewModel : ViewModel() {
 
     private val tag: String = "TestsViewModel"
 
-    private val sdkImageProcessor = SdkImageProcessor()
-    private val ndkImageProcessor = NdkImageProcessor()
+    private val sdkImageProcessor = SdkImageProcessor(viewModelScope)
+    private val ndkImageProcessor = NdkImageProcessor(viewModelScope)
 
     private val _stateLiveData = MutableLiveData<TestsState>().default(TestsState())
     val stateLiveData: LiveData<TestsState> = _stateLiveData
@@ -29,52 +30,38 @@ class TestsViewModel : ViewModel() {
     private val state get() = stateLiveData.value
 
     private val ref = Firebase.storage.getReference("images/")
-//    private val ref = Firebase.storage.getReference("high_quality_images/")
 
-    fun startImageProcessing() = GlobalScope.launch(Dispatchers.IO) {
+    fun startImageProcessing() = viewModelScope.launch(Dispatchers.Default) {
         listAllPaginated()
     }
 
-    private suspend fun listAllPaginated() =
-        ref.list(IMAGE_COUNT)
-            .addOnSuccessListener { listResult ->
+    private suspend fun listAllPaginated() = ref.list(IMAGE_COUNT)
+        .addOnSuccessListener { listResult ->
             listResult.items.forEach { storageReference ->
                 storageReference
                     .getBytes(Long.MAX_VALUE)
                     .addOnSuccessListener { biteArray ->
-                        GlobalScope.launch(Dispatchers.IO) {
-                            processImage(BitmapFactory.decodeByteArray(biteArray, 0, biteArray.size))
+                        viewModelScope.launch(Dispatchers.Default) {
+                            processImage(
+                                BitmapFactory.decodeByteArray(
+                                    biteArray,
+                                    0,
+                                    biteArray.size
+                                )
+                            )
                         }
                     }.addOnFailureListener(::onGettingBytesFailed)
             }
         }.addOnFailureListener(::onGettingImageFailed)
 
-/*    private fun listAllPaginated(pageToken: String? = null) =
-        if (pageToken != null) {
-            ref.list(10, pageToken)
-        } else {
-            ref.list(10)
-        }.addOnSuccessListener { listResult ->
-            listResult.items.forEach { storageReference ->
-                storageReference
-                    .getBytes(Long.MAX_VALUE)
-                    .addOnSuccessListener { biteArray ->
-                        processImage(BitmapFactory.decodeByteArray(biteArray, 0, biteArray.size))
-                        listResult.pageToken?.let {
-                            listAllPaginated(it)
-                        }
-                    }.addOnFailureListener(::onGettingBytesFailed)
-            }
-        }.addOnFailureListener(::onGettingImageFailed)*/
-
     private suspend fun processImage(bitmap: Bitmap) {
         val sdkResultTime = measureTimeMillis {
-            sdkImageProcessor.meanShift(bitmap)
-        }.toDouble() / 1000
+            repeat(ITERATIONS_PER_IMAGE) { sdkImageProcessor.meanShiftAsync(bitmap).await() }
+        }.toDouble() / 1000 / ITERATIONS_PER_IMAGE
 
         val ndkResultTime = measureTimeMillis {
-            ndkImageProcessor.meanShift(bitmap)
-        }.toDouble() / 1000
+            repeat(ITERATIONS_PER_IMAGE) { ndkImageProcessor.meanShiftAsync(bitmap).await() }
+        }.toDouble() / 1000 / ITERATIONS_PER_IMAGE
 
         withContext(Dispatchers.Main) {
             state?.let { it ->

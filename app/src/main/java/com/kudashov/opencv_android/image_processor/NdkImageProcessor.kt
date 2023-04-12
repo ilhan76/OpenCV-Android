@@ -1,19 +1,24 @@
 package com.kudashov.opencv_android.image_processor
 
 import android.graphics.Bitmap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 
-class NdkImageProcessor: ImageProcessor {
+class NdkImageProcessor(
+    private val coroutineScope: CoroutineScope
+) : ImageProcessor {
 
-    override suspend fun blur(bitmap: Bitmap, sigma: Int): Bitmap {
+    override suspend fun blurAsync(bitmap: Bitmap, sigma: Int) = coroutineScope.async<Bitmap>(Dispatchers.Default) {
         val resultBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         blur(bitmap, resultBitmap, sigma)
-        return resultBitmap
+        resultBitmap
     }
 
-    override suspend fun meanShift(bitmap: Bitmap): Bitmap {
+    override suspend fun meanShiftAsync(bitmap: Bitmap) = coroutineScope.async<Bitmap>(Dispatchers.Default) {
         val resultBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         meanShift(bitmap, resultBitmap)
-        return resultBitmap
+        resultBitmap
     }
 
     private external fun meanShift(bitmapIn: Bitmap, bitmapOut: Bitmap)

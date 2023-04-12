@@ -1,14 +1,20 @@
 package com.kudashov.opencv_android.image_processor
 
 import android.graphics.Bitmap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import org.opencv.android.Utils
 import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 
-class SdkImageProcessor : ImageProcessor {
+class SdkImageProcessor(
+    private val coroutineScope: CoroutineScope
+) : ImageProcessor {
 
-    override suspend fun blur(bitmap: Bitmap, sigma: Int): Bitmap {
+    override suspend fun blurAsync(bitmap: Bitmap, sigma: Int) = coroutineScope.async<Bitmap>(
+        Dispatchers.Default) {
         val imageSrc = Mat()
 
         Utils.bitmapToMat(bitmap, imageSrc)
@@ -22,10 +28,10 @@ class SdkImageProcessor : ImageProcessor {
             Bitmap.Config.ARGB_8888
         )
         Utils.matToBitmap(destination, copy)
-        return copy
+        copy
     }
 
-    override suspend fun meanShift(bitmap: Bitmap): Bitmap {
+    override suspend fun meanShiftAsync(bitmap: Bitmap) = coroutineScope.async<Bitmap>(Dispatchers.Default) {
         val imageSrc = Mat()
         val destination = Mat()
 
@@ -46,6 +52,6 @@ class SdkImageProcessor : ImageProcessor {
             Bitmap.Config.ARGB_8888
         )
         Utils.matToBitmap(destination, copy)
-        return copy
+        copy
     }
 }

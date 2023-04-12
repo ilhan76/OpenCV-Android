@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.kudashov.opencv_android.R
 import com.kudashov.opencv_android.databinding.ActivityTestsBinding
-import kotlinx.coroutines.*
 
 class TestsActivityView : AppCompatActivity() {
 
@@ -17,9 +16,7 @@ class TestsActivityView : AppCompatActivity() {
         binding = ActivityTestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bind()
-        GlobalScope.launch {
-            viewModel.startImageProcessing()
-        }
+        viewModel.startImageProcessing()
     }
 
     private fun bind() = viewModel.stateLiveData.observe(this) { state ->
