@@ -2,7 +2,6 @@ package com.kudashov.opencv_android.screens.test
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.kudashov.opencv_android.R
 import com.kudashov.opencv_android.databinding.ActivityTestsBinding
 
@@ -29,11 +28,7 @@ class TestsActivityView : AppCompatActivity() {
             state.totalImageCount
         )
         binding.loaderPb.progress = state.processedImageCount
-        if (state.isProcessingFinished) {
-            binding.loaderContainer.isVisible = false
-            binding.chart.data = state.getChartData()
-            binding.chart.invalidate()
-        }
-
+        binding.chart.data = state.getChartData()
+        binding.chart.invalidate()
     }
 }

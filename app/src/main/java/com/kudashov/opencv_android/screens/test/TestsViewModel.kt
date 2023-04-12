@@ -1,6 +1,5 @@
 package com.kudashov.opencv_android.screens.test
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -37,24 +36,19 @@ class TestsViewModel : ViewModel() {
 
     private suspend fun listAllPaginated() = ref.list(IMAGE_COUNT)
         .addOnSuccessListener { listResult ->
-            listResult.items.forEach { storageReference ->
+            listResult.items.forEachIndexed { i, storageReference ->
                 storageReference
                     .getBytes(Long.MAX_VALUE)
-                    .addOnSuccessListener { biteArray ->
-                        viewModelScope.launch(Dispatchers.Default) {
-                            processImage(
-                                BitmapFactory.decodeByteArray(
-                                    biteArray,
-                                    0,
-                                    biteArray.size
-                                )
-                            )
-                        }
-                    }.addOnFailureListener(::onGettingBytesFailed)
+                    .addOnSuccessListener { byteArray ->
+                        viewModelScope.launch(Dispatchers.Default) { processImage(byteArray, i) }
+                    }
+                    .addOnFailureListener(::onGettingBytesFailed)
             }
         }.addOnFailureListener(::onGettingImageFailed)
 
-    private suspend fun processImage(bitmap: Bitmap) {
+    private suspend fun processImage(byteArray: ByteArray, index: Int) {
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+
         val sdkResultTime = measureTimeMillis {
             repeat(ITERATIONS_PER_IMAGE) { sdkImageProcessor.meanShiftAsync(bitmap).await() }
         }.toDouble() / 1000 / ITERATIONS_PER_IMAGE
@@ -65,18 +59,12 @@ class TestsViewModel : ViewModel() {
 
         withContext(Dispatchers.Main) {
             state?.let { it ->
-                _stateLiveData.postValue(
-                    it.copy(
-                        sdkTimeResults = listOf(
-                            it.sdkTimeResults,
-                            listOf(sdkResultTime)
-                        ).flatten(),
-                        ndkTimeResults = listOf(
-                            it.ndkTimeResults,
-                            listOf(ndkResultTime)
-                        ).flatten(),
-                        processedImageCount = it.processedImageCount + 1
-                    )
+                _stateLiveData.value = it.copy(
+                    sdkTimeResults = it.sdkTimeResults
+                        .apply { set(index, sdkResultTime) },
+                    ndkTimeResults = it.ndkTimeResults
+                        .apply { set(index, ndkResultTime) },
+                    processedImageCount = it.processedImageCount + 1
                 )
             }
         }
