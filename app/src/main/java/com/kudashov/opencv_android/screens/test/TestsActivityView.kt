@@ -28,7 +28,19 @@ class TestsActivityView : AppCompatActivity() {
             state.totalImageCount
         )
         binding.loaderPb.progress = state.processedImageCount
+
         binding.chart.data = state.getChartData()
         binding.chart.invalidate()
+
+        if (state.isProcessingFinished) {
+            binding.averageTimeNdkTv.text = getString(
+                R.string.average_ndk_time_text,
+                state.averageNdkTime.toString()
+            )
+            binding.averageTimeSdkTv.text = getString(
+                R.string.average_sdk_time_text,
+                state.averageSdkTime.toString()
+            )
+        }
     }
 }

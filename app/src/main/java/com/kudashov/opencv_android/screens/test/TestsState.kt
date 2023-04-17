@@ -34,6 +34,22 @@ data class TestsState(
         return data
     }
 
+    val averageSdkTime: Double get() {
+        var sum = 0.0
+        sdkTimeResults.forEach {
+            sum += it
+        }
+        return sum / sdkTimeResults.size
+    }
+
+    val averageNdkTime: Double get() {
+        var sum = 0.0
+        ndkTimeResults.forEach {
+            sum += it
+        }
+        return sum / ndkTimeResults.size
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
