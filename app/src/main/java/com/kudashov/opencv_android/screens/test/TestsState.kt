@@ -7,10 +7,9 @@ import com.kudashov.opencv_android.base.IMAGE_COUNT
 data class TestsState(
     val totalImageCount: Int = IMAGE_COUNT,
     val processedImageCount: Int = 0,
-    val sdkTimeResults: Array<Double> = Array(totalImageCount) { 0.0 },
-    val ndkTimeResults: Array<Double> = Array(totalImageCount) { 0.0 },
+    val sdkTimeResults: List<Double> = emptyList(),
+    val ndkTimeResults: List<Double> = emptyList(),
 ) {
-    val isProcessingFinished: Boolean = totalImageCount == processedImageCount
 
     fun getChartData(): LineData {
         val ndkEntryList = mutableListOf<Entry>()
@@ -36,41 +35,13 @@ data class TestsState(
 
     val averageSdkTime: Double get() {
         var sum = 0.0
-        sdkTimeResults.forEach {
-            sum += it
-        }
+        sdkTimeResults.forEach { sum += it }
         return sum / sdkTimeResults.size
     }
 
     val averageNdkTime: Double get() {
         var sum = 0.0
-        ndkTimeResults.forEach {
-            sum += it
-        }
+        ndkTimeResults.forEach { sum += it }
         return sum / ndkTimeResults.size
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as TestsState
-
-        if (totalImageCount != other.totalImageCount) return false
-        if (processedImageCount != other.processedImageCount) return false
-        if (!sdkTimeResults.contentEquals(other.sdkTimeResults)) return false
-        if (!ndkTimeResults.contentEquals(other.ndkTimeResults)) return false
-        if (isProcessingFinished != other.isProcessingFinished) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = totalImageCount
-        result = 31 * result + processedImageCount
-        result = 31 * result + sdkTimeResults.contentHashCode()
-        result = 31 * result + ndkTimeResults.contentHashCode()
-        result = 31 * result + isProcessingFinished.hashCode()
-        return result
     }
 }

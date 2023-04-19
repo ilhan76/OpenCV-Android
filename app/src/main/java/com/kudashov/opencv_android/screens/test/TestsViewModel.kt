@@ -1,14 +1,12 @@
 package com.kudashov.opencv_android.screens.test
 
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.kudashov.opencv_android.base.IMAGE_COUNT
 import com.kudashov.opencv_android.base.ITERATIONS_PER_IMAGE
 import com.kudashov.opencv_android.extensions.default
 import com.kudashov.opencv_android.image_processor.NdkImageProcessor
@@ -18,8 +16,6 @@ import kotlin.system.measureTimeMillis
 
 class TestsViewModel : ViewModel() {
 
-    private val tag: String = "TestsViewModel"
-
     private val sdkImageProcessor = SdkImageProcessor(viewModelScope)
     private val ndkImageProcessor = NdkImageProcessor(viewModelScope)
 
@@ -28,25 +24,19 @@ class TestsViewModel : ViewModel() {
 
     private val state get() = stateLiveData.value
 
-    private val ref = Firebase.storage.getReference("images/")
+    private val firebaseInteractor = FirebaseInteractor(Firebase.storage.getReference("coco/"))
 
     fun startImageProcessing() = viewModelScope.launch(Dispatchers.Default) {
-        listAllPaginated()
+        var pageToken: String? = null
+        do {
+            val imagesRequest = firebaseInteractor.getListPaginated(pageToken)
+
+            imagesRequest.byteImages.forEach { processImage(it) }
+            pageToken = imagesRequest.token
+        } while (pageToken != null)
     }
 
-    private suspend fun listAllPaginated() = ref.list(IMAGE_COUNT)
-        .addOnSuccessListener { listResult ->
-            listResult.items.forEachIndexed { i, storageReference ->
-                storageReference
-                    .getBytes(Long.MAX_VALUE)
-                    .addOnSuccessListener { byteArray ->
-                        viewModelScope.launch(Dispatchers.Default) { processImage(byteArray, i) }
-                    }
-                    .addOnFailureListener(::onGettingBytesFailed)
-            }
-        }.addOnFailureListener(::onGettingImageFailed)
-
-    private suspend fun processImage(byteArray: ByteArray, index: Int) {
+    private suspend fun processImage(byteArray: ByteArray) {
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
 
         val sdkResultTime = measureTimeMillis {
@@ -61,18 +51,14 @@ class TestsViewModel : ViewModel() {
             state?.let { it ->
                 _stateLiveData.value = it.copy(
                     sdkTimeResults = it.sdkTimeResults
-                        .apply { set(index, sdkResultTime) },
+                        .toMutableList()
+                        .apply { add(sdkResultTime) },
                     ndkTimeResults = it.ndkTimeResults
-                        .apply { set(index, ndkResultTime) },
+                        .toMutableList()
+                        .apply { add(ndkResultTime) },
                     processedImageCount = it.processedImageCount + 1
                 )
             }
         }
     }
-
-    private fun onGettingImageFailed(exception: Exception) =
-        Log.d(tag, "Ошибка получения изображений - ${exception.localizedMessage}")
-
-    private fun onGettingBytesFailed(exception: Exception) =
-        Log.d(tag, "Ошибка получения байт изображения - ${exception.localizedMessage}")
 }
