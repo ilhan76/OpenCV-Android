@@ -8,11 +8,18 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.kudashov.opencv_android.base.ITERATIONS_PER_IMAGE
+import com.kudashov.opencv_android.base.Locations.DIC2K_DATASET
+import com.kudashov.opencv_android.base.Locations.COCO_DATASET
 import com.kudashov.opencv_android.extensions.default
 import com.kudashov.opencv_android.image_processor.NdkImageProcessor
 import com.kudashov.opencv_android.image_processor.SdkImageProcessor
 import kotlinx.coroutines.*
 import kotlin.system.measureTimeMillis
+
+sealed class DatasetType {
+    object Coco : DatasetType()
+    object Div2k : DatasetType()
+}
 
 class TestsViewModel : ViewModel() {
 
@@ -24,17 +31,24 @@ class TestsViewModel : ViewModel() {
 
     private val state get() = stateLiveData.value
 
-    private val firebaseInteractor = FirebaseInteractor(Firebase.storage.getReference("coco/"))
+    private val div2kFirebaseInteractor =
+        FirebaseInteractor(Firebase.storage.getReference(DIC2K_DATASET))
+    private val cocoFirebaseInteractor =
+        FirebaseInteractor(Firebase.storage.getReference(COCO_DATASET))
 
-    fun startImageProcessing() = viewModelScope.launch(Dispatchers.Default) {
-        var pageToken: String? = null
-        do {
-            val imagesRequest = firebaseInteractor.getListPaginated(pageToken)
+    fun startImageProcessing(datasetType: DatasetType) =
+        viewModelScope.launch(Dispatchers.Default) {
+            var pageToken: String? = null
+            do {
+                val imagesRequest = when (datasetType) {
+                    DatasetType.Coco -> cocoFirebaseInteractor
+                    DatasetType.Div2k -> div2kFirebaseInteractor
+                }.getListPaginated(pageToken)
 
-            imagesRequest.byteImages.forEach { processImage(it) }
-            pageToken = imagesRequest.token
-        } while (pageToken != null)
-    }
+                imagesRequest.byteImages.forEach { processImage(it) }
+                pageToken = imagesRequest.token
+            } while (pageToken != null)
+        }
 
     private suspend fun processImage(byteArray: ByteArray) {
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)

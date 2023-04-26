@@ -15,7 +15,7 @@ class TestsActivityView : AppCompatActivity() {
         binding = ActivityTestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bind()
-        viewModel.startImageProcessing()
+        viewModel.startImageProcessing(DatasetType.Div2k)
     }
 
     private fun bind() = viewModel.stateLiveData.observe(this) { state ->
