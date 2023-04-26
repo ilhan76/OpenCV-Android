@@ -60,6 +60,16 @@
                 android:textSize="20sp"
                 tools:text="Среднее время NDK: 4.664" />
 
+            <TextView
+                android:id="@+id/performance_gain_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:text="Прирост производительности: 64%" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

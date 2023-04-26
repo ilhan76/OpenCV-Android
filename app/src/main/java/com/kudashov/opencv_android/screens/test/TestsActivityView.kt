@@ -40,5 +40,6 @@ class TestsActivityView : AppCompatActivity() {
             R.string.average_sdk_time_text,
             state.averageSdkTime.toString()
         )
+        binding.performanceGainTv.text = getString(R.string.performance_gain_text, state.performanceGain.toString())
     }
 }

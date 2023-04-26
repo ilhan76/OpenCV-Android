@@ -20,5 +20,6 @@
     <string name="image_processing_progress_text">Обработано: %d из %d</string>
     <string name="average_sdk_time_text">Среднее время SDK: %s</string>
     <string name="average_ndk_time_text">Среднее время NDK: %s</string>
+    <string name="performance_gain_text">Прирост производительности, в процентах: %s</string>
     <!--endregion-->
 </resources>

@@ -11,6 +11,24 @@ data class TestsState(
     val ndkTimeResults: List<Double> = emptyList(),
 ) {
 
+    val averageSdkTime: Double get() {
+        var sum = 0.0
+        sdkTimeResults.forEach { sum += it }
+        return sum / sdkTimeResults.size
+    }
+
+    val averageNdkTime: Double get() {
+        var sum = 0.0
+        ndkTimeResults.forEach { sum += it }
+        return sum / ndkTimeResults.size
+    }
+
+    val performanceGain: Int get() {
+        val sdkTime = averageSdkTime
+        val ndkTime = averageNdkTime
+        return ((sdkTime - ndkTime) / sdkTime * 100).toInt()
+    }
+
     fun getChartData(): LineData {
         val ndkEntryList = mutableListOf<Entry>()
         ndkTimeResults.forEachIndexed { i, data ->
@@ -31,17 +49,5 @@ data class TestsState(
         data.addDataSet(sdkDataSet)
         data.addDataSet(ndkDataSet)
         return data
-    }
-
-    val averageSdkTime: Double get() {
-        var sum = 0.0
-        sdkTimeResults.forEach { sum += it }
-        return sum / sdkTimeResults.size
-    }
-
-    val averageNdkTime: Double get() {
-        var sum = 0.0
-        ndkTimeResults.forEach { sum += it }
-        return sum / ndkTimeResults.size
     }
 }
