@@ -1,63 +1,33 @@
 {
   "project_info": {
-    "project_number": "939572729436",
-    "firebase_url": "https://testproject-e3bbe-default-rtdb.firebaseio.com",
-    "project_id": "testproject-e3bbe",
-    "storage_bucket": "testproject-e3bbe.appspot.com"
+    "project_number": "611618985335",
+    "project_id": "imagestorage-72ded",
+    "storage_bucket": "imagestorage-72ded.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:939572729436:android:59e4c84bd134783c0db899",
+        "mobilesdk_app_id": "1:611618985335:android:7356ee0ba2d338d5613d72",
         "android_client_info": {
           "package_name": "com.kudashov.opencv_android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "939572729436-th88kl4frl064rtjq1998p7rqfblpolo.apps.googleusercontent.com",
+          "client_id": "611618985335-g0aj9v4vroo2g7tu8e1uoebdm0g5cfe6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCq6LFo__0Frm1gFO-oY8i3cMD3r7yB1WA"
+          "current_key": "AIzaSyDXj3SehEBBd4JfM_m_tMsYlxpYA7mVm5A"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "939572729436-th88kl4frl064rtjq1998p7rqfblpolo.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:939572729436:android:1e7924a310349b5d0db899",
-        "android_client_info": {
-          "package_name": "com.kudashov.url_comparison"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "939572729436-th88kl4frl064rtjq1998p7rqfblpolo.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCq6LFo__0Frm1gFO-oY8i3cMD3r7yB1WA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "939572729436-th88kl4frl064rtjq1998p7rqfblpolo.apps.googleusercontent.com",
+              "client_id": "611618985335-g0aj9v4vroo2g7tu8e1uoebdm0g5cfe6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
