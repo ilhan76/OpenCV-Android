@@ -22,11 +22,19 @@
             android:text="@string/open_from_gallery_screen_btn_text" />
 
         <Button
-            android:id="@+id/open_tests_screen_btn"
+            android:id="@+id/open_tests_screen_coco_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:text="@string/open_tests_screen_btn_text" />
+            android:text="@string/open_tests_screen_coco_btn_text" />
+
+        <Button
+            android:id="@+id/open_tests_screen_div2k_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/open_tests_screen_div2k_btn_text" />
     </LinearLayout>
 </ScrollView>

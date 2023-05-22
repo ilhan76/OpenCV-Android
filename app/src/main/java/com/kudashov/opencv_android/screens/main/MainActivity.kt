@@ -22,8 +22,17 @@ class MainActivity : AppCompatActivity() {
         openFromGalleryScreenBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, FromGalleryActivityView::class.java))
         }
-        openTestsScreenBtn.setOnClickListener {
-            startActivity(Intent(this@MainActivity, TestsActivityView::class.java))
+        openTestsScreenCocoBtn.setOnClickListener {
+            val intent = Intent(this@MainActivity, TestsActivityView::class.java).apply {
+                putExtra("datasetType", "COCO")
+            }
+            startActivity(intent)
+        }
+        openTestsScreenDiv2kBtn.setOnClickListener {
+            val intent = Intent(this@MainActivity, TestsActivityView::class.java).apply {
+                putExtra("datasetType", "DIV2K")
+            }
+            startActivity(intent)
         }
     }
 }

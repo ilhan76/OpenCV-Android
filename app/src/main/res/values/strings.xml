@@ -3,7 +3,8 @@
 
     <!--region MainActivityView-->
     <string name="open_from_gallery_screen_btn_text">Из галереи</string>
-    <string name="open_tests_screen_btn_text">Запустить тесты</string>
+    <string name="open_tests_screen_coco_btn_text">Запустить тесты (COCO)</string>
+    <string name="open_tests_screen_div2k_btn_text">Запустить тесты (DIV2K)</string>
     <!--endregion-->
 
     <!--region FromGalleryActivityView-->

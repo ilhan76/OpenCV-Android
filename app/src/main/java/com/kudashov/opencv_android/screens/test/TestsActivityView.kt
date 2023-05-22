@@ -15,7 +15,12 @@ class TestsActivityView : AppCompatActivity() {
         binding = ActivityTestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bind()
-        viewModel.startImageProcessing(DatasetType.Div2k)
+        val datasetType = intent.getStringExtra("datasetType")
+
+        when(datasetType) {
+            "COCO" -> viewModel.startImageProcessing(DatasetType.Coco)
+            "DIV2K" -> viewModel.startImageProcessing(DatasetType.Div2k)
+        }
     }
 
     private fun bind() = viewModel.stateLiveData.observe(this) { state ->
