@@ -90,19 +90,46 @@ void matToBitmap(JNIEnv *env, Mat src, jobject bitmap, jboolean needPremultiplyA
     }
 }
 
+void copyBitmap(JNIEnv *env, jobject bitmap, jobject &res) {
+    jclass bitmapClass = env->FindClass("android/graphics/Bitmap");
+    jclass bitmapConfigClass = env->FindClass("android/graphics/Bitmap$Config");
+
+    jmethodID valueOfMethodID = env->GetStaticMethodID(
+            bitmapConfigClass,
+            "valueOf", "(Ljava/lang/String;)Landroid/graphics/Bitmap$Config;");
+
+    jobject bitmapConfig = env->CallStaticObjectMethod(
+            bitmapConfigClass,
+            valueOfMethodID,
+            env->NewStringUTF("ARGB_8888"));
+
+    jmethodID copyMethodID = env->GetMethodID(
+            bitmapClass,
+            "copy", "(Landroid/graphics/Bitmap$Config;Z)Landroid/graphics/Bitmap;");
+
+    res = env->CallObjectMethod(
+            bitmap,
+            copyMethodID,
+            bitmapConfig,
+            true);
+}
+
 extern "C"
-JNIEXPORT void JNICALL
+JNIEXPORT jobject JNICALL
 Java_com_kudashov_opencv_1android_image_1processor_NdkImageProcessor_meanShift(
         JNIEnv *env,
         jobject thiz,
-        jobject bitmap_in,
-        jobject bitmap_out
+        jobject bitmap_in
 ) {
     Mat src;
+    jobject bitmap_out;
+    copyBitmap(env, bitmap_in, bitmap_out);
     bitmapToMat(env, bitmap_in, src, true);
     meanShift(src);
     matToBitmap(env, src, bitmap_out, true);
+    return bitmap_out;
 }
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_kudashov_opencv_1android_image_1processor_NdkImageProcessor_blur(

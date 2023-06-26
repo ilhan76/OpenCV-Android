@@ -1,5 +1,7 @@
 package com.kudashov.opencv_android.screens.test
 
+import android.content.Context
+import android.database.Observable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kudashov.opencv_android.R
@@ -15,9 +17,8 @@ class TestsActivityView : AppCompatActivity() {
         binding = ActivityTestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bind()
-        val datasetType = intent.getStringExtra("datasetType")
 
-        when(datasetType) {
+        when(intent.getStringExtra("datasetType")) {
             "COCO" -> viewModel.startImageProcessing(DatasetType.Coco)
             "DIV2K" -> viewModel.startImageProcessing(DatasetType.Div2k)
         }

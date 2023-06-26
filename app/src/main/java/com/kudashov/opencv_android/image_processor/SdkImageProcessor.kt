@@ -13,7 +13,7 @@ class SdkImageProcessor(
     private val coroutineScope: CoroutineScope
 ) : ImageProcessor {
 
-    override suspend fun blurAsync(bitmap: Bitmap, sigma: Int) =
+    override fun blurAsync(bitmap: Bitmap, sigma: Int) =
         coroutineScope.async<Bitmap>(Dispatchers.Default) {
             val imageSrc = Mat()
 
@@ -31,7 +31,7 @@ class SdkImageProcessor(
             copy
         }
 
-    override suspend fun meanShiftAsync(bitmap: Bitmap) =
+    override fun meanShiftAsync(bitmap: Bitmap) =
         coroutineScope.async<Bitmap>(Dispatchers.Default) {
             val imageSrc = Mat()
             val destination = Mat()

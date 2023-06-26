@@ -5,7 +5,7 @@ import kotlinx.coroutines.Deferred
 
 interface ImageProcessor {
 
-    suspend fun blurAsync(bitmap: Bitmap, sigma: Int): Deferred<Bitmap>
+    fun blurAsync(bitmap: Bitmap, sigma: Int): Deferred<Bitmap>
 
-    suspend fun meanShiftAsync(bitmap: Bitmap): Deferred<Bitmap>
+    fun meanShiftAsync(bitmap: Bitmap): Deferred<Bitmap>
 }
